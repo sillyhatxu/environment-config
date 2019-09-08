@@ -13,6 +13,30 @@ go mod init environment-config
 go mod vendor
 ```
 
+## verify dependencies
+
+```
+go mod verify
+```
+
+## remove dependencies that is not used
+
+```
+go mod tidy
+```
+
+## print dependence diagram
+
+```
+go mod graph
+```
+
+## download dependencies
+
+```
+go mod download
+```
+
 # Release Template
 
 ### Feature
