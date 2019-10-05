@@ -21,6 +21,9 @@ func ConfigFile(configFile string) Option {
 
 func Environment(environment string) Option {
 	return func(c *Config) {
+		if environment == "" {
+			environment = defaultLocalEnvironment
+		}
 		c.environment = environment
 	}
 }
