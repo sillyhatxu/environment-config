@@ -1,37 +1,119 @@
 package envconfig
 
 import (
+	"bufio"
 	"bytes"
 	"fmt"
+	"github.com/BurntSushi/toml"
 	"io/ioutil"
 	"os"
 	"reflect"
 	"strconv"
+	"strings"
 )
 
-func ParseConfig(configFile string, unmarshalfunc func([]byte)) {
-	if fileInfo, err := os.Stat(configFile); err != nil {
+func ParseConfig(input interface{}, opts ...Option) error {
+	//default
+	config := &Config{
+		configFile:  defaultConfigFile,
+		environment: defaultLocalEnvironment,
+	}
+	for _, opt := range opts {
+		opt(config)
+	}
+	if fileInfo, err := os.Stat(config.configFile); err != nil {
 		if os.IsNotExist(err) {
-			panic(fmt.Sprintf("configuration file [%s] does not exist.", configFile))
+			return fmt.Errorf("configuration file [%s] does not exist.", config.configFile)
 		} else {
-			panic(fmt.Sprintf("configuration file [%s] can not be stated. %v", configFile, err))
+			return fmt.Errorf("configuration file [%s] can not be stated. %v", config.configFile, err)
 		}
 	} else {
 		if fileInfo.IsDir() {
-			panic(fmt.Sprintf("%s is a directory name", configFile))
+			return fmt.Errorf("%s is a directory name", config.configFile)
 		}
 	}
-	content, err := ioutil.ReadFile(configFile)
+	content, err := ioutil.ReadFile(config.configFile)
 	if err != nil {
-		panic(fmt.Sprintf("read configuration file error. %v", err))
+		return fmt.Errorf("read configuration file error. %v", err)
 	}
 	content = bytes.TrimSpace(content)
-	unmarshalfunc(content)
+	err = toml.Unmarshal(content, input)
+	if err != nil {
+		return fmt.Errorf("unmarshal toml object error. %v", err)
+	}
+	if config.environment == defaultLocalEnvironment {
+		err := loadEnv(defaultLocalEnvFile)
+		if err != nil {
+			return err
+		}
+	}
+	err = parseEnvironmentConfig(input)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func loadEnv(fileName string) error {
+	file, err := os.Open(fileName)
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		if scanner.Text() == "" {
+			continue
+		}
+		array := strings.Split(scanner.Text(), "=")
+		if array == nil || len(array) != 2 {
+			return fmt.Errorf("split error. %s", scanner.Text())
+		}
+		err := os.Setenv(array[0], array[1])
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 const tagName = `env`
 
-func ParseEnvironmentConfig(obj interface{}) error {
+//func parseEnvironmentConfig(obj interface{}) error {
+//	objT := reflect.TypeOf(obj)
+//	objV := reflect.ValueOf(obj)
+//	switch {
+//	case isStruct(objT):
+//	case isStructPtr(objT):
+//		objT = objT.Elem()
+//		objV = objV.Elem()
+//	default:
+//		return fmt.Errorf("%v must be a struct or a struct pointer", obj)
+//	}
+//	return parse(objT, objV)
+//}
+//
+//func parse(t reflect.Type, v reflect.Value) error {
+//	fmt.Println("Type is", t.Name(), "and kind is", t.Kind())
+//	for i := 0; i < t.NumField(); i++ {
+//		f := t.Field(i)
+//		fmt.Println(fmt.Sprintf("Name : %s; Type : %s; Kind : %s; Tag : %s", f.Name, f.Type.Name(), f.Type.Kind(), f.Tag))
+//		tag := f.Tag.Get(tagName)
+//		if tag == "" {
+//			continue
+//		} else if tag == "-" {
+//			fieldValue := v.Elem()
+//			return parseEnvironmentConfig(fieldValue)
+//		}
+//		if f.Tag != "" {
+//			fmt.Println("Tag is", f.Tag)
+//			fmt.Println("tag1 is", f.Tag.Get("tag1"), "tag2 is", f.Tag.Get("tag2"))
+//		}
+//	}
+//	return nil
+//}
+
+func parseEnvironmentConfig(obj interface{}) error {
 	objT := reflect.TypeOf(obj)
 	objV := reflect.ValueOf(obj)
 	switch {
@@ -45,6 +127,9 @@ func ParseEnvironmentConfig(obj interface{}) error {
 	for i := 0; i < objT.NumField(); i++ {
 		field := objT.Field(i)
 		tag := field.Tag.Get(tagName)
+		if tag == "" {
+			continue
+		}
 		envValue := os.Getenv(tag)
 		fieldValue := reflect.ValueOf(obj).Elem()
 		switch field.Type.Kind() {
