@@ -24,11 +24,11 @@ type config struct {
 	DBWordHost                   string  `env:"SILLYHAT.DB.WORD.HOST"`
 	DBWordPort                   int     `env:"SILLYHAT.DB.WORD.PORT"`
 	DBWordSchema                 string  `env:"SILLYHAT.DB.WORD.SCHEMA"`
-	DBRemindUserName             string  `env:"SILLYHAT.DB.Remind.USERNAME"`
-	DBRemindPassword             string  `env:"SILLYHAT.DB.Remind.PASSWORD"`
-	DBRemindHost                 string  `env:"SILLYHAT.DB.Remind.HOST"`
-	DBRemindPort                 int     `env:"SILLYHAT.DB.Remind.PORT"`
-	DBRemindSchema               string  `env:"SILLYHAT.DB.Remind.SCHEMA"`
+	DBRemindUserName             string  `env:"SILLYHAT.DB.REMIND.USERNAME"`
+	DBRemindPassword             string  `env:"SILLYHAT.DB.REMIND.PASSWORD"`
+	DBRemindHost                 string  `env:"SILLYHAT.DB.REMIND.HOST"`
+	DBRemindPort                 int     `env:"SILLYHAT.DB.REMIND.PORT"`
+	DBRemindSchema               string  `env:"SILLYHAT.DB.REMIND.SCHEMA"`
 	DBDDLPath                    string  `env:"SILLYHAT.DB.DDL.PATH"`
 	LogstashURL                  string  `env:"SILLYHAT.LOGSTASH.URL"`
 	OSSImageBucket               string  `env:"SILLYHAT.OSS.IMAGE_BUCKET"`
