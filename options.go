@@ -1,14 +1,11 @@
 package envconfig
 
 const (
-	defaultConfigFile       = "config-local.conf"
-	defaultLocalEnvironment = "local"
-	defaultLocalEnvFile     = ".env"
+	defaultConfigFile = "config-local.conf"
 )
 
 type Config struct {
-	configFile  string
-	environment string
+	configFile string
 }
 
 type Option func(*Config)
@@ -16,14 +13,5 @@ type Option func(*Config)
 func ConfigFile(configFile string) Option {
 	return func(c *Config) {
 		c.configFile = configFile
-	}
-}
-
-func Environment(environment string) Option {
-	return func(c *Config) {
-		if environment == "" {
-			environment = defaultLocalEnvironment
-		}
-		c.environment = environment
 	}
 }

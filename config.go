@@ -19,8 +19,7 @@ func ParseDefaultConfig(opts ...Option) error {
 func ParseConfig(input interface{}, opts ...Option) error {
 	//default
 	config := &Config{
-		configFile:  defaultConfigFile,
-		environment: defaultLocalEnvironment,
+		configFile: defaultConfigFile,
 	}
 	for _, opt := range opts {
 		opt(config)
@@ -45,12 +44,6 @@ func ParseConfig(input interface{}, opts ...Option) error {
 	if err != nil {
 		return fmt.Errorf("unmarshal toml object error. %v", err)
 	}
-	if config.environment == defaultLocalEnvironment {
-		err := loadEnv(defaultLocalEnvFile)
-		if err != nil {
-			return err
-		}
-	}
 	err = parseEnvironmentConfig(input)
 	if err != nil {
 		return err
@@ -58,7 +51,7 @@ func ParseConfig(input interface{}, opts ...Option) error {
 	return nil
 }
 
-func loadEnv(fileName string) error {
+func LoadEnv(fileName string) error {
 	file, err := os.Open(fileName)
 	if err != nil {
 		panic(err)
