@@ -30,6 +30,7 @@ type config struct {
 	DBRemindPort                 int     `env:"SILLYHAT.DB.REMIND.PORT"`
 	DBRemindSchema               string  `env:"SILLYHAT.DB.REMIND.SCHEMA"`
 	DBDDLPath                    string  `env:"SILLYHAT.DB.DDL.PATH"`
+	DBFlyway                     bool    `env:"SILLYHAT.DB.FLYWAY"`
 	LogstashURL                  string  `env:"SILLYHAT.LOGSTASH.URL"`
 	OSSImageBucket               string  `env:"SILLYHAT.OSS.IMAGE_BUCKET"`
 	OSSEndpoint                  string  `env:"SILLYHAT.OSS.ENDPOINT"`
@@ -40,7 +41,7 @@ type config struct {
 	MiniMQGRPCPort               int     `env:"SILLYHAT.MINIMQ.GRPC.PORT"`
 	MiniMQUserName               string  `env:"SILLYHAT.MINIMQ.USERNAME"`
 	MiniMQPassword               string  `env:"SILLYHAT.MINIMQ.PASSWORD"`
-	HostConsul                   string  `env:"SILLYHAT.HOST.CONSUL"`
+	ConsulAddress                string  `env:"SILLYHAT.CONSUL.ADDRESS"`
 	HostMiniMQHttp               string  `env:"SILLYHAT.HOST.MINI_MQ.HTTP"`
 	HostMiniMQGRPC               string  `env:"SILLYHAT.HOST.MINI_MQ.GRPC"`
 	HostUserGRPC                 string  `env:"SILLYHAT.HOST.USER.GRPC"`
