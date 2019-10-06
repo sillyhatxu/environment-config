@@ -12,6 +12,10 @@ import (
 	"strings"
 )
 
+func ParseDefaultConfig(opts ...Option) error {
+	return ParseConfig(&Conf, opts...)
+}
+
 func ParseConfig(input interface{}, opts ...Option) error {
 	//default
 	config := &Config{
