@@ -12,22 +12,22 @@ type config struct {
 	DBMotherUserName             string  `env:"SILLYHAT.DB.MOTHER.USERNAME"`
 	DBMotherPassword             string  `env:"SILLYHAT.DB.MOTHER.PASSWORD"`
 	DBMotherHost                 string  `env:"SILLYHAT.DB.MOTHER.HOST"`
-	DBMotherPort                 string  `env:"SILLYHAT.DB.MOTHER.PORT"`
+	DBMotherPort                 int     `env:"SILLYHAT.DB.MOTHER.PORT"`
 	DBMotherSchema               string  `env:"SILLYHAT.DB.MOTHER.SCHEMA"`
 	DBUserUserName               string  `env:"SILLYHAT.DB.USER.USERNAME"`
 	DBUserPassword               string  `env:"SILLYHAT.DB.USER.PASSWORD"`
 	DBUserHost                   string  `env:"SILLYHAT.DB.USER.HOST"`
-	DBUserPort                   string  `env:"SILLYHAT.DB.USER.PORT"`
+	DBUserPort                   int     `env:"SILLYHAT.DB.USER.PORT"`
 	DBUserSchema                 string  `env:"SILLYHAT.DB.USER.SCHEMA"`
 	DBWordUserName               string  `env:"SILLYHAT.DB.WORD.USERNAME"`
 	DBWordPassword               string  `env:"SILLYHAT.DB.WORD.PASSWORD"`
 	DBWordHost                   string  `env:"SILLYHAT.DB.WORD.HOST"`
-	DBWordPort                   string  `env:"SILLYHAT.DB.WORD.PORT"`
+	DBWordPort                   int     `env:"SILLYHAT.DB.WORD.PORT"`
 	DBWordSchema                 string  `env:"SILLYHAT.DB.WORD.SCHEMA"`
 	DBRemindUserName             string  `env:"SILLYHAT.DB.Remind.USERNAME"`
 	DBRemindPassword             string  `env:"SILLYHAT.DB.Remind.PASSWORD"`
 	DBRemindHost                 string  `env:"SILLYHAT.DB.Remind.HOST"`
-	DBRemindPort                 string  `env:"SILLYHAT.DB.Remind.PORT"`
+	DBRemindPort                 int     `env:"SILLYHAT.DB.Remind.PORT"`
 	DBRemindSchema               string  `env:"SILLYHAT.DB.Remind.SCHEMA"`
 	DBDDLPath                    string  `env:"SILLYHAT.DB.DDL.PATH"`
 	LogstashURL                  string  `env:"SILLYHAT.LOGSTASH.URL"`
@@ -36,8 +36,8 @@ type config struct {
 	OSSAccessKey                 string  `env:"SILLYHAT.OSS.ACCESS_KEY"`
 	OSSSecretKey                 string  `env:"SILLYHAT.OSS.SECRET_KEY"`
 	MiniMQHost                   string  `env:"SILLYHAT.MINIMQ.HOST"`
-	MiniMQApiPort                string  `env:"SILLYHAT.MINIMQ.API.PORT"`
-	MiniMQGRPCPort               string  `env:"SILLYHAT.MINIMQ.GRPC.PORT"`
+	MiniMQApiPort                int     `env:"SILLYHAT.MINIMQ.API.PORT"`
+	MiniMQGRPCPort               int     `env:"SILLYHAT.MINIMQ.GRPC.PORT"`
 	MiniMQUserName               string  `env:"SILLYHAT.MINIMQ.USERNAME"`
 	MiniMQPassword               string  `env:"SILLYHAT.MINIMQ.PASSWORD"`
 	HostConsul                   string  `env:"SILLYHAT.HOST.CONSUL"`
